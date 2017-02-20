@@ -1,32 +1,21 @@
-from json import load
-from json import dump
-from os.path import exists
-from argparse import ArgumentParser
-
-
-def load_data_from_json_file(filepath):
-    if not exists(filepath):
-        return None
-    with open(filepath, 'r') as f:
-        return load(f)
-
-
-def save_data_to_json_file(data, filepath):
-    with open(filepath, 'w') as f:
-        return dump(data, f)
+import json
+import os
+import argparse
+import requests
 
 
 def get_argument_parser():
-    parser = ArgumentParser()
+    parser = argparse.ArgumentParser()
     parser.add_argument('number_of_vacancies', help='number of vacancies to retrieve')
-    parser.add_argument('credentials_file', 
-                        help='json file containing cliend_id and client_secret fields')
+    parser.add_argument('-o', '--outfile', type=argparse.FileType('w'),
+                        default='output.json', help='output JSON file')
     return parser
 
 
 if __name__ == '__main__':
     args = get_argument_parser().parse_args()
-    credentials = load_data_from_json_file(args.credentials_file)
-    vacancies = get_vacancy_list(args.number_of_vacancies, credentials)
-    save_data_to_json_file(vacancies)
-
+    key = os.environ['SUPERJOB_SECRET_KEY']
+    vacancies = get_vacancy_list(args.number_of_vacancies, key)
+    print(vacancies.text)
+    json.dump(vacancies, args.outfile)
+    #save_data_to_json_file(vacancies, 'test.json')
