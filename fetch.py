@@ -14,12 +14,19 @@ def make_get_request_to_superjob(method, secret_key, params):
 
 def get_vacancy_list(number_of_vacancies, secret_key):
     #TODO: add additional keywords
-    #TODO: download exactly number_of_vacancies
-    params = { 'keyword': 'программист', 'count': 100 }
+    max_items_per_page = 100 
+    params = { 'keyword': 'программист', 'page': 0,
+               'count': max_items_per_page }
     response = make_get_request_to_superjob('vacancies', key, params)
     if not response.ok:
         return None
-    return response.json()['objects']
+    vacancy_list = []
+    for vacancy_num in range(0, number_of_vacancies, params['count']):
+        new_vacancies = response.json()['objects']
+        vacancies_left = number_of_vacancies - vacancy_num
+        vacancy_list += new_vacancies[:vacancies_left]
+        params['page'] += 1
+    return vacancy_list
 
 
 def get_argument_parser():
