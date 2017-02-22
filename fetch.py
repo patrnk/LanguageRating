@@ -1,5 +1,6 @@
 import json
 import os
+import time
 import argparse
 import requests
 
@@ -13,10 +14,12 @@ def make_get_request_to_superjob(method, secret_key, params):
 
 
 def get_vacancy_list(number_of_vacancies, secret_key):
-    #TODO: add additional keywords
     max_items_per_page = 100 
-    params = { 'keyword': 'программист', 'page': 0,
-               'count': max_items_per_page }
+    programming_catalogue = 48
+    moscow_id = 4
+    params = { 'page': 0, 'count': max_items_per_page, 
+               'show_new': time.time(), 'catalogues': 48, 
+               'no_agreement': 1, 'town': moscow_id }
     response = make_get_request_to_superjob('vacancies', key, params)
     if not response.ok:
         return None
