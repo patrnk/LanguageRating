@@ -2,15 +2,6 @@ import json
 import argparse
 
 
-def get_argument_parser():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('infile', type=argparse.FileType('r'),
-                        help='the input JSON file with raw vacancies')
-    parser.add_argument('outfile', type=argparse.FileType('w'),
-                        help='the output JSON file')
-    return parser
-
-
 def trim(raw_vacancy):
     payment = raw_vacancy['payment'] or raw_vacancy['payment_from']
     payment = payment or raw_vacancy['payment_to']
@@ -25,6 +16,17 @@ def get_trimmed_vacancy_list(raw_vacancy_list):
     for raw_vacancy in raw_vacancy_list:
         trimmed_vacancy_list.append(trim(raw_vacancy))
     return trimmed_vacancy_list
+
+
+def get_argument_parser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-i', '--infile', type=argparse.FileType('r'),
+                        default='vacancies.json',
+                        help='JSON file with vacancies from SuperJob')
+    parser.add_argument('-o', '--outfile', type=argparse.FileType('w'),
+                        default='trimmed_vacancies.json',
+                        help='JSON file with trimmed vacancies')
+    return parser
 
 
 if __name__ == '__main__':
