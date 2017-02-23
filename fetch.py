@@ -8,9 +8,8 @@ import requests
 def make_get_request_to_superjob(method, secret_key, params):
     headers = { 'X-Api-App-Id': secret_key }
     kwargs = { 'headers': headers, 'params': params }
-    return requests.request(method='GET', 
-                            url='https://api.superjob.ru/2.0/%s/' % method, 
-                            **kwargs)
+    url = 'https://api.superjob.ru/2.0/%s/' % method
+    return requests.get(url, **kwargs)
 
 
 def get_vacancy_list(number_of_vacancies, secret_key):
