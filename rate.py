@@ -1,6 +1,7 @@
 import json
 import argparse
 import sys
+import matplotlib.pyplot as plt
 
 
 def is_language_detected_in_text(language_synonym_list, text):
@@ -61,6 +62,21 @@ def get_target_languages():
     return target_languages
 
 
+def show_stats_histogram(stats):
+    bar_coordinates = range(len(sorted(stats)))
+    language_names = [name for name in sorted(stats)]
+    average_payments = [stats[name]['payment_sum'] / stats[name]['vacancy_count']
+                        for name in language_names]
+    plt.figure(figsize=(12, 7))
+    plt.bar(bar_coordinates, average_payments, tick_label=language_names, align='center')
+
+    plt.figure(1).canvas.set_window_title('language salaries')
+    plt.ylabel('Average salary')
+    plt.xlabel('Language name')
+    plt.title('Comparison of average salaries among different programming languages')
+    plt.show()
+    
+
 def get_argument_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--infile', type=argparse.FileType('r'),
@@ -69,6 +85,9 @@ def get_argument_parser():
     parser.add_argument('-o', '--outfile', type=argparse.FileType('r'),
                         default=sys.stdout,
                         help='output file, stdout by default')
+    parser.add_argument('-g', '--graph', action='store_true',
+                        help='in addition to text output, provide '\
+                             'graphical representation of the data')
     return parser
 
 
@@ -78,3 +97,5 @@ if __name__ == '__main__':
     languages = get_target_languages()
     stats = get_stats_for_each_language(vacancies, languages)
     print_stats_for_each_language(stats, args.outfile)
+    if args.graph:
+        show_stats_histogram(stats)
