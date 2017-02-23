@@ -26,6 +26,10 @@ def get_stats_for_each_language(vacancy_list, target_languages):
             stats[language]['payment_sum'] += vacancy['payment']
             if detected_in_title:
                 break
+
+    for _, counters in stats.items():
+        counters['average_payment'] = counters['payment_sum'] / counters['vacancy_count']\
+                                   if counters['vacancy_count'] else 0
     return stats
 
 
@@ -33,8 +37,7 @@ def print_stats_for_each_language(language_stats, outfile):
     for language, stats in sorted(language_stats.items()):
         outfile.write('Name: %s\n' % language)        
         outfile.write('  Number of vacancies: %d\n' % stats['vacancy_count'])        
-        average_payment = stats['payment_sum'] / stats['vacancy_count']
-        outfile.write('  Average payment: %d\n' % average_payment)        
+        outfile.write('  Average payment: %d\n' % stats['average_payment'])        
 
 
 def load_vacancy_list(inputfile):
@@ -65,8 +68,7 @@ def get_target_languages():
 def show_stats_histogram(stats):
     bar_coordinates = range(len(sorted(stats)))
     language_names = [name for name in sorted(stats)]
-    average_payments = [stats[name]['payment_sum'] / stats[name]['vacancy_count']
-                        for name in language_names]
+    average_payments = [stats[name]['average_payment'] for name in language_names]
     plt.figure(figsize=(12, 7))
     plt.bar(bar_coordinates, average_payments, tick_label=language_names, align='center')
 
