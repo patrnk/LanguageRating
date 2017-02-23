@@ -16,7 +16,24 @@ def load_vacancy_list(inputfile):
 
 
 def get_target_languages():
-    pass
+    ''' Returns dictionary with target languages.
+
+    An item in the dictionary  has the following structure:
+    'name_to_display': ['name_to_search1', 'name_to_search2', ...]
+    '''
+    # this is top-10 languages as ranked by IEEE in 2016
+    # https://tinyurl.com/j7btjs2
+    target_languages = { 'C': [' C ', ' C,', 'Си'],
+                         'Java': ['Java'],
+                         'Python': ['Python'],
+                         'C/C++': ['C++'],
+                         'R': [' R ', ' R,'],
+                         'C#': ['C#'],
+                         'PHP': ['PHP'],
+                         'JavaScript': ['JavaScript', ' JS ', ' JS,'],
+                         'Ruby': ['Ruby'],
+                         'Go': ['Go'] }
+    return target_languages
 
 
 def get_argument_parser():
