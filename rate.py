@@ -12,12 +12,12 @@ def is_language_detected_in_text(language_synonym_list, text):
 
 def get_stats_for_each_language(vacancy_list, target_languages):
     stats = dict([(language, {'vacancy_count': 0, 'payment_sum': 0})
-                  for language in target_languages]))
+                  for language in target_languages])
     for vacancy in vacancy_list:
-        for language, synonyms in target_languages:
+        for language, synonyms in target_languages.items():
             detected_in_title = is_language_detected_in_text(synonyms, 
                                                              vacancy['profession']) 
-            detected = detected_in_title or 
+            detected = detected_in_title or \
                        is_language_detected_in_text(synonyms, vacancy['candidat']) 
             if not detected:
                 continue
@@ -29,7 +29,7 @@ def get_stats_for_each_language(vacancy_list, target_languages):
 
 
 def print_stats_for_each_language(language_stats, outfile):
-    for language, stats in language_stats:
+    for language, stats in language_stats.items():
         outfile.write('Name: %s\n' % language)        
         outfile.write('  Number of vacancies: %d\n' % stats['vacancy_count'])        
         average_payment = stats['payment_sum'] / stats['vacancy_count']
@@ -50,9 +50,8 @@ def get_target_languages():
     # https://tinyurl.com/hbnxv4t
     target_languages = { 'Java': ['Java'],
                          'Python': ['Python'],
-                         '1C': ['1C'],
                          'C/C++': ['C++'],
-                         'Obj-C/Swift': ['Objective-C', 'Swift'],
+                         'Objective-C': ['Objective-C', 'Obj-C'],
                          'C#': ['C#'],
                          'PHP': ['PHP'],
                          'JavaScript': ['JavaScript', ' JS ', ' JS,'],
