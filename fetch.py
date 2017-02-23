@@ -36,7 +36,7 @@ def get_argument_parser():
     parser.add_argument('-t', '--top', type=int, default=100,
                         help='number of vacancies to retrieve')
     parser.add_argument('-o', '--outfile', type=argparse.FileType('w'),
-                        default='output.json', help='output JSON file')
+                        default='vacancies.json', help='output JSON file')
     return parser
 
 
