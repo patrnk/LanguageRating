@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 def is_language_detected_in_text(language_synonym_list, text):
     for synonym in language_synonym_list:
-        if synonym in text:
+        if synonym.lower() in text.lower():
             return True
     return False
 
