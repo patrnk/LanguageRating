@@ -80,8 +80,8 @@ def show_stats_histogram(stats):
 def get_argument_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--infile', type=argparse.FileType('r'),
-                        default='trimmed_vacancies.json',
-                        help='input JSON file')
+                        default=sys.stdin,
+                        help='input JSON file, stdin by default')
     parser.add_argument('-o', '--outfile', type=argparse.FileType('r'),
                         default=sys.stdout,
                         help='output file, stdout by default')

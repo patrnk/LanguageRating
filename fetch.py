@@ -3,6 +3,7 @@ import os
 import time
 import argparse
 import requests
+import sys
 
 
 def make_get_request_to_superjob(method, secret_key, params):
@@ -36,7 +37,7 @@ def get_argument_parser():
     parser.add_argument('-t', '--top', type=int, default=100,
                         help='number of vacancies to retrieve')
     parser.add_argument('-o', '--outfile', type=argparse.FileType('w'),
-                        default='vacancies.json', help='output JSON file')
+                        default=sys.stdout, help='output JSON file, stdout by default')
     return parser
 
 
@@ -45,5 +46,5 @@ if __name__ == '__main__':
     key = os.environ['SUPERJOB_SECRET_KEY']
     vacancies = get_vacancy_list(args.top, key)
     if vacancies is None:
-        exit('Sorry, couldn\'t get the list')
+        sys.exit('Sorry, couldn\'t get the list')
     json.dump(vacancies, args.outfile)

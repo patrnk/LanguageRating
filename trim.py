@@ -1,5 +1,6 @@
 import json
 import argparse
+import sys
 
 
 def trim(raw_vacancy):
@@ -21,11 +22,11 @@ def get_trimmed_vacancy_list(raw_vacancy_list):
 def get_argument_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--infile', type=argparse.FileType('r'),
-                        default='vacancies.json',
-                        help='JSON file with vacancies from SuperJob')
+                        default=sys.stdin,
+                        help='JSON file with vacancies from SuperJob, stdin by default')
     parser.add_argument('-o', '--outfile', type=argparse.FileType('w'),
-                        default='trimmed_vacancies.json',
-                        help='JSON file with trimmed vacancies')
+                        default=sys.stdout,
+                        help='JSON file for trimmed vacancies, stdout by default')
     return parser
 
 
