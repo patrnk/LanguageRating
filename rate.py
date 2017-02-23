@@ -28,8 +28,13 @@ def get_stats_for_each_language(vacancy_list, target_languages):
     return stats
 
 
-def print_stats_for_each_language(language_stats):
-    pass
+def print_stats_for_each_language(language_stats, outfile):
+    for language, stats in language_stats:
+        outfile.write('Name: %s\n' % language)        
+        outfile.write('  Number of vacancies: %d\n' % stats['vacancy_count'])        
+        average_payment = stats['payment_sum'] / stats['vacancy_count']
+        outfile.write('  Average payment: %d\n' % average_payment)        
+
 
 
 def load_vacancy_list(inputfile):
@@ -73,4 +78,4 @@ if __name__ == '__main__':
     vacancies = load_vacancy_list(args.infile)
     languages = get_target_languages()
     stats = get_stats_for_each_language(vacancies, languages)
-    print_stats_for_each_language(stats)
+    print_stats_for_each_language(stats, args.outfile)
