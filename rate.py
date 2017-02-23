@@ -84,7 +84,7 @@ def get_argument_parser():
     parser.add_argument('-i', '--infile', type=argparse.FileType('r'),
                         default=sys.stdin,
                         help='input JSON file, stdin by default')
-    parser.add_argument('-o', '--outfile', type=argparse.FileType('r'),
+    parser.add_argument('-o', '--outfile', type=argparse.FileType('w'),
                         default=sys.stdout,
                         help='output file, stdout by default')
     parser.add_argument('-g', '--graph', action='store_true',
