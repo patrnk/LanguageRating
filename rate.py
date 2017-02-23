@@ -3,8 +3,25 @@ import argparse
 import sys
 
 
-def get_stats_for_each_language(vacancy_list, target_languages):
+def language_detected_in_text(language_synonym_list, text):
     pass
+
+
+def get_stats_for_each_language(vacancy_list, target_languages):
+    stats = dict([(language, {'vacancy_count': 0, 'payment_sum': 0})
+                  for language in target_languages]))
+    for vacancy in vacancy_list:
+        for language, synonyms in target_languages:
+            detected_in_title = language_detected_in_text(synonyms, vacancy['profession']) 
+            detected = detected_in_title or language_detected_in_text(synonyms,
+                                                                      vacancy['candidat']) 
+            if not detected:
+                continue
+            stats[language]['vacancy_count'] += 1
+            stats[language]['payment_sum'] += vacancy['payment']
+            if detected_in_title:
+                break
+    return stats
 
 
 def print_stats_for_each_language(language_stats):
