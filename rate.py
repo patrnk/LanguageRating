@@ -1,4 +1,6 @@
 import json
+import argparse
+import sys
 
 
 def get_stats_for_each_language(vacancy_list, target_languages):
@@ -14,12 +16,19 @@ def get_target_languages():
 
 
 def get_argument_parser():
-    pass
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-i', '--infile', type=argparse.FileType('r'),
+                        default='trimmed_vacancies.json',
+                        help='input JSON file')
+    parser.add_argument('-o', '--outfile', type=argparse.FileType('r'),
+                        default=sys.stdout,
+                        help='output file, stdout by default')
+    return parser
 
 
-if __name__ = '__main__':
+if __name__ == '__main__':
     args = get_argument_parser().parse_args()
     vacancies = json.load(args.infile)
     languages = get_target_languages()
-    stats = get_language_statistics(vacancies, languages)
-    print_language_statistics(stats)
+    stats = get_stats_for_each_language(vacancies, languages)
+    print_stats_for_each_language(stats)
