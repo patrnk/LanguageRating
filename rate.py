@@ -36,7 +36,6 @@ def print_stats_for_each_language(language_stats, outfile):
         outfile.write('  Average payment: %d\n' % average_payment)        
 
 
-
 def load_vacancy_list(inputfile):
     return json.load(inputfile)
 
@@ -47,18 +46,19 @@ def get_target_languages():
     An item in the dictionary  has the following structure:
     'name_to_display': ['name_to_search1', 'name_to_search2', ...]
     '''
-    # this is top-10 languages as ranked by IEEE in 2016
-    # https://tinyurl.com/j7btjs2
-    target_languages = { 'C': [' C ', ' C,', 'Си'],
-                         'Java': ['Java'],
+    # programming languages mentioned in SuperJob research
+    # https://tinyurl.com/hbnxv4t
+    target_languages = { 'Java': ['Java'],
                          'Python': ['Python'],
+                         '1C': ['1C'],
                          'C/C++': ['C++'],
-                         'R': [' R ', ' R,'],
+                         'Obj-C/Swift': ['Objective-C', 'Swift'],
                          'C#': ['C#'],
                          'PHP': ['PHP'],
                          'JavaScript': ['JavaScript', ' JS ', ' JS,'],
                          'Ruby': ['Ruby'],
-                         'Go': ['Go'] }
+                         'Delphi': ['Delphi'],
+                         'Perl': ['Perl'], }
     return target_languages
 
 
