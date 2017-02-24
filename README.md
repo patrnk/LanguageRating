@@ -1,6 +1,12 @@
 # LanguageSalary
 Collection of scripts that help to get an average salary for some programming languages based on vacancy descriptions from SuperJob.ru
 
+You'll probably need to install additional modules to run the scripts. Do this with
+```#!bash
+$ pip install -r requirements.txt
+```
+(file requirements.txt is in the repository).
+
 For a quickstart, just run
 ```#!bash
 $ python3 fetch.py | python3 trim.py | python3 rate.py | less
