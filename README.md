@@ -1,5 +1,5 @@
 # LanguageSalary
-Collection of scripts that help to get an average salary for some programming languages based on vacancy descriptions from SuperJob.ru
+Collection of scripts that help to get an average salary for some programming languages based on vacancy descriptions from SuperJob.ru.
 
 You'll probably need to install additional modules to run the scripts. Do this with
 ```#!bash
@@ -29,7 +29,7 @@ Finally, this script takes a JSON file produced by ```trim.py``` and outputs the
 ```#!bash
 $ python3 rate.py -i trimmed_vacancies.json -o rated_languages.txt -g
 ```
-The ```-g``` option tells the script to draw a histogram representing the data written into ```rated_languages.txt```:
+The ```-g``` option tells the script to draw a histogram representing the data written to ```rated_languages.txt```:
 ![](https://i.imgur.com/wKUUlfB.png "")
 # Project Goals
 This is a homework assignment for the [styleru_py course](https://github.com/patrnk/styleru_py-notes).
