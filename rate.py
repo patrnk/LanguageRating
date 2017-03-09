@@ -27,7 +27,7 @@ def get_stats_for_each_language(vacancy_list, target_languages):
             if detected_in_title:
                 break
 
-    for _, counters in stats.items():
+    for counters in stats.values():
         counters['average_payment'] = counters['payment_sum'] / counters['vacancy_count']\
                                    if counters['vacancy_count'] else 0
     return stats
