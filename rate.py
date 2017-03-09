@@ -11,9 +11,14 @@ def is_language_detected_in_text(language_synonym_list, text):
     return False
 
 
+def initialize_language_stats_dictionary(languages):
+    statistics = {}
+    for language in languages:
+        statistics[language] = {'vacancy_count': 0, 'payment_sum': 0}
+    return statistics
+
 def get_stats_for_each_language(vacancy_list, target_languages):
-    stats = dict([(language, {'vacancy_count': 0, 'payment_sum': 0})
-                  for language in target_languages])
+    stats = initialize_language_stats_dictionary(target_languages)
     for vacancy in vacancy_list:
         for language, synonyms in target_languages.items():
             detected_in_title = is_language_detected_in_text(synonyms, 
@@ -28,8 +33,11 @@ def get_stats_for_each_language(vacancy_list, target_languages):
                 break
 
     for counters in stats.values():
-        counters['average_payment'] = counters['payment_sum'] / counters['vacancy_count']\
-                                   if counters['vacancy_count'] else 0
+        if counters['vacancy_count'] == 0:
+            counters['average_payment'] = 0
+            continue
+        counters['average_payment'] = counters['payment_sum'] / counters['vacancy_count']
+
     return stats
 
 
