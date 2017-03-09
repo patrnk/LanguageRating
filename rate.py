@@ -51,7 +51,7 @@ def get_target_languages():
     'name_to_display': ['name_to_search1', 'name_to_search2', ...]
     '''
     # programming languages mentioned in SuperJob research
-    # https://tinyurl.com/hbnxv4t
+    # https://www.superjob.ru/research/articles/111800/samye-vysokie-zarplaty-v-sfere-it/
     target_languages = { 'Java': ['Java'],
                          'Python': ['Python'],
                          'C/C++': ['C++'],
