@@ -17,10 +17,23 @@ def initialize_language_stats_dictionary(languages):
         statistics[language] = {'vacancy_count': 0, 'payment_sum': 0}
     return statistics
 
-def get_stats_for_each_language(vacancy_list, target_languages):
-    stats = initialize_language_stats_dictionary(target_languages)
+def get_language_statistics(vacancy_list):
+    # programming languages mentioned in SuperJob research
+    # https://www.superjob.ru/research/articles/111800/samye-vysokie-zarplaty-v-sfere-it/
+    language_search_keywords = { 'Java': ['Java'],
+                                 'Python': ['Python'],
+                                 'C/C++': ['C++'],
+                                 'Objective-C': ['Objective-C', 'Obj-C'],
+                                 'C#': ['C#'],
+                                 'PHP': ['PHP'],
+                                 'JavaScript': ['JavaScript', 'JS'],
+                                 'Ruby': ['Ruby'],
+                                 'Delphi': ['Delphi'],
+                                 'Perl': ['Perl'], 
+                                 }
+    stats = initialize_language_stats_dictionary(language_search_keywords.keys())
     for vacancy in vacancy_list:
-        for language, synonyms in target_languages.items():
+        for language, synonyms in language_search_keywords.items():
             detected_in_title = is_language_detected_in_text(synonyms, 
                                                              vacancy['profession']) 
             detected = detected_in_title or \
@@ -50,27 +63,6 @@ def print_stats_for_each_language(language_stats, outfile):
 
 def load_vacancy_list(inputfile):
     return json.load(inputfile)
-
-
-def get_target_languages():
-    ''' Returns dictionary with target languages.
-
-    An item in the dictionary  has the following structure:
-    'name_to_display': ['name_to_search1', 'name_to_search2', ...]
-    '''
-    # programming languages mentioned in SuperJob research
-    # https://www.superjob.ru/research/articles/111800/samye-vysokie-zarplaty-v-sfere-it/
-    target_languages = { 'Java': ['Java'],
-                         'Python': ['Python'],
-                         'C/C++': ['C++'],
-                         'Objective-C': ['Objective-C', 'Obj-C'],
-                         'C#': ['C#'],
-                         'PHP': ['PHP'],
-                         'JavaScript': ['JavaScript', 'JS'],
-                         'Ruby': ['Ruby'],
-                         'Delphi': ['Delphi'],
-                         'Perl': ['Perl'], }
-    return target_languages
 
 
 def show_stats_histogram(stats):
@@ -104,8 +96,7 @@ def get_argument_parser():
 if __name__ == '__main__':
     args = get_argument_parser().parse_args()
     vacancies = load_vacancy_list(args.infile)
-    languages = get_target_languages()
-    stats = get_stats_for_each_language(vacancies, languages)
+    stats = get_language_statistics(vacancies)
     print_stats_for_each_language(stats, args.outfile)
     if args.graph:
         show_stats_histogram(stats)
