@@ -14,7 +14,7 @@ def make_get_request_to_superjob(method, secret_key, params):
 
 
 def get_vacancy_list(number_of_vacancies, secret_key):
-    max_items_per_page = 100 
+    max_items_per_page = 100
     programming_catalogue = 48
     moscow_id = 4
     params = { 'page': 0, 'count': max_items_per_page, 
@@ -22,7 +22,7 @@ def get_vacancy_list(number_of_vacancies, secret_key):
                'no_agreement': 1, 'town': moscow_id }
     response = make_get_request_to_superjob('vacancies', key, params)
     if not response.ok:
-        return None
+        return
     vacancy_list = []
     for vacancy_num in range(0, number_of_vacancies, params['count']):
         new_vacancies = response.json()['objects']
