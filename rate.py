@@ -66,7 +66,7 @@ def get_target_languages():
                          'Objective-C': ['Objective-C', 'Obj-C'],
                          'C#': ['C#'],
                          'PHP': ['PHP'],
-                         'JavaScript': ['JavaScript', ' JS ', ' JS,'],
+                         'JavaScript': ['JavaScript', 'JS'],
                          'Ruby': ['Ruby'],
                          'Delphi': ['Delphi'],
                          'Perl': ['Perl'], }
