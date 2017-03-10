@@ -61,10 +61,6 @@ def print_statistics_for_each_language(language_statistics, outfile):
         outfile.write('  Average payment: %d\n' % stats['average_payment'])        
 
 
-def load_vacancy_list(inputfile):
-    return json.load(inputfile)
-
-
 def show_statistics_histogram(statistics):
     bar_coordinates = range(len(sorted(statistics)))
     language_names = [name for name in sorted(statistics)]
@@ -95,7 +91,7 @@ def get_argument_parser():
 
 if __name__ == '__main__':
     args = get_argument_parser().parse_args()
-    vacancies = load_vacancy_list(args.infile)
+    vacancies = json.load(args.infile)
     stats = get_language_statistics(vacancies)
     print_statistics_for_each_language(stats, args.outfile)
     if args.graph:
