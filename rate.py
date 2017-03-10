@@ -4,6 +4,13 @@ import sys
 import matplotlib.pyplot as plt
 
 
+def initialize_language_statistics_dictionary(languages):
+    statistics = {}
+    for language in languages:
+        statistics[language] = {'vacancy_count': 0, 'payment_sum': 0}
+    return statistics
+
+
 def is_language_detected_in_text(language_synonym_list, text):
     for synonym in language_synonym_list:
         if synonym.lower() in text.lower():
@@ -11,12 +18,17 @@ def is_language_detected_in_text(language_synonym_list, text):
     return False
 
 
-def initialize_language_statistics_dictionary(languages):
-    statistics = {}
-    for language in languages:
-        statistics[language] = {'vacancy_count': 0, 'payment_sum': 0}
-    return statistics
+def determine_vacancy_languages(vacancy, language_search_keywords):
+    languages_mentioned = []
+    for language, synonyms in language_search_keywords.items():
+        detected_in_title = is_language_detected_in_text(synonyms, vacancy['profession']) 
+        detected_in_summary = is_language_detected_in_text(synonyms, vacancy['candidat']) 
+        if not (detected_in_title or detected_in_summary):
+            continue
+        languages_mentioned.append(language)
+    return languages_mentioned
 
+    
 def get_language_statistics(vacancy_list):
     # programming languages mentioned in SuperJob research
     # https://www.superjob.ru/research/articles/111800/samye-vysokie-zarplaty-v-sfere-it/
@@ -33,18 +45,11 @@ def get_language_statistics(vacancy_list):
                                  }
     stats = initialize_language_statistics_dictionary(language_search_keywords.keys())
     for vacancy in vacancy_list:
-        for language, synonyms in language_search_keywords.items():
-            detected_in_title = is_language_detected_in_text(synonyms, 
-                                                             vacancy['profession']) 
-            detected = detected_in_title or \
-                       is_language_detected_in_text(synonyms, vacancy['candidat']) 
-            if not detected:
-                continue
+        vacancy_languages = determine_vacancy_languages(vacancy, language_search_keywords)
+        for language in vacancy_languages:
             stats[language]['vacancy_count'] += 1
             stats[language]['payment_sum'] += vacancy['payment']
-            if detected_in_title:
-                break
-
+            
     for counters in stats.values():
         if counters['vacancy_count'] == 0:
             counters['average_payment'] = 0
