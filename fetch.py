@@ -14,12 +14,13 @@ def make_get_request_to_superjob(method, secret_key, params):
 
 
 def fetch_page_of_programming_vacancies(page_number, secret_key):
+    # as an API quirk, returns empty list if there are no more vacancies left
     max_items_per_page = 100  # API won't allow more
-    programming_catalogue = 48
-    moscow_id = 4
+    catalogue = 48  # this is catalogue of programming vacancies
+    town_id = 4  # this is id of moscow
     params = { 'page': page_number, 'count': max_items_per_page, 
-               'show_new': time.time(), 'catalogues': 48, 
-               'no_agreement': 1, 'town': moscow_id }
+               'show_new': time.time(), 'catalogues': catalogue, 
+               'no_agreement': 1, 'town': town_id }
     response = make_get_request_to_superjob('vacancies', key, params)
     response.raise_for_status()
     return response.json()['objects']
@@ -31,6 +32,8 @@ def fetch_vacancies(number_of_vacancies, secret_key):
     page_number = 0
     while vacancies_left > 0:
         new_vacancies = fetch_page_of_programming_vacancies(page_number, secret_key)
+        if len(new_vacancies) == 0:  # no more vacancies in the catalogue
+            break
         vacancy_list += new_vacancies[:vacancies_left]
         vacancies_left -= len(new_vacancies)
         page_number += 1
