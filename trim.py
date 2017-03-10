@@ -3,7 +3,7 @@ import argparse
 import sys
 
 
-def trim(raw_vacancy):
+def strip_irrelevant_vacancy_info(raw_vacancy):
     payment = raw_vacancy['payment'] or raw_vacancy['payment_from']
     payment = payment or raw_vacancy['payment_to']
     trimmed_vacancy = { 'profession': raw_vacancy['profession'],
@@ -12,11 +12,11 @@ def trim(raw_vacancy):
     return trimmed_vacancy
 
 
-def get_trimmed_vacancy_list(raw_vacancy_list):
-    trimmed_vacancy_list = []
-    for raw_vacancy in raw_vacancy_list:
-        trimmed_vacancy_list.append(trim(raw_vacancy))
-    return trimmed_vacancy_list
+def get_stripped_vacancy_list(raw_vacancies):
+    stripped_vacancy_list = []
+    for raw_vacancy in raw_vacancies:
+        stripped_vacancy_list.append(strip_irrelevant_vacancy_info(raw_vacancy))
+    return stripped_vacancy_list
 
 
 def get_cli_arguments():
@@ -33,5 +33,5 @@ def get_cli_arguments():
 if __name__ == '__main__':
     args = get_cli_arguments()
     raw_vacancies = json.load(args.infile)
-    trimmed_vanacies = get_trimmed_vacancy_list(raw_vacancies)
-    json.dump(trimmed_vanacies, args.outfile)
+    stripped_vanacies = get_stripped_vacancy_list(raw_vacancies)
+    json.dump(stripped_vanacies, args.outfile)
