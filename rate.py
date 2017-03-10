@@ -11,7 +11,7 @@ def initialize_language_statistics_dictionary(languages):
     return statistics
 
 
-def is_language_detected_in_text(language_synonym_list, text):
+def is_language_found_in_text(language_synonym_list, text):
     for synonym in language_synonym_list:
         if synonym.lower() in text.lower():
             return True
@@ -20,9 +20,11 @@ def is_language_detected_in_text(language_synonym_list, text):
 
 def determine_vacancy_languages(vacancy, language_search_keywords):
     languages_mentioned = []
-    for language, synonyms in language_search_keywords.items():
-        detected_in_title = is_language_detected_in_text(synonyms, vacancy['profession']) 
-        detected_in_summary = is_language_detected_in_text(synonyms, vacancy['candidat']) 
+    for language, keywords in language_search_keywords.items():
+        detected_in_title = is_language_found_in_text(keywords, vacancy['profession']) 
+        detected_in_summary = False
+        if vacancy['candidat'] is not None:
+            detected_in_summary = is_language_found_in_text(keywords, vacancy['candidat']) 
         if not (detected_in_title or detected_in_summary):
             continue
         languages_mentioned.append(language)
