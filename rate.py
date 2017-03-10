@@ -11,7 +11,7 @@ def is_language_detected_in_text(language_synonym_list, text):
     return False
 
 
-def initialize_language_stats_dictionary(languages):
+def initialize_language_statistics_dictionary(languages):
     statistics = {}
     for language in languages:
         statistics[language] = {'vacancy_count': 0, 'payment_sum': 0}
@@ -31,7 +31,7 @@ def get_language_statistics(vacancy_list):
                                  'Delphi': ['Delphi'],
                                  'Perl': ['Perl'], 
                                  }
-    stats = initialize_language_stats_dictionary(language_search_keywords.keys())
+    stats = initialize_language_statistics_dictionary(language_search_keywords.keys())
     for vacancy in vacancy_list:
         for language, synonyms in language_search_keywords.items():
             detected_in_title = is_language_detected_in_text(synonyms, 
@@ -54,8 +54,8 @@ def get_language_statistics(vacancy_list):
     return stats
 
 
-def print_stats_for_each_language(language_stats, outfile):
-    for language, stats in sorted(language_stats.items()):
+def print_statistics_for_each_language(language_statistics, outfile):
+    for language, stats in sorted(language_statistics.items()):
         outfile.write('Name: %s\n' % language)        
         outfile.write('  Number of vacancies: %d\n' % stats['vacancy_count'])        
         outfile.write('  Average payment: %d\n' % stats['average_payment'])        
@@ -65,10 +65,10 @@ def load_vacancy_list(inputfile):
     return json.load(inputfile)
 
 
-def show_stats_histogram(stats):
-    bar_coordinates = range(len(sorted(stats)))
-    language_names = [name for name in sorted(stats)]
-    average_payments = [stats[name]['average_payment'] for name in language_names]
+def show_statistics_histogram(statistics):
+    bar_coordinates = range(len(sorted(statistics)))
+    language_names = [name for name in sorted(statistics)]
+    average_payments = [statistics[name]['average_payment'] for name in language_names]
     plt.figure(figsize=(12, 7))
     plt.bar(bar_coordinates, average_payments, tick_label=language_names, align='center')
 
@@ -97,6 +97,6 @@ if __name__ == '__main__':
     args = get_argument_parser().parse_args()
     vacancies = load_vacancy_list(args.infile)
     stats = get_language_statistics(vacancies)
-    print_stats_for_each_language(stats, args.outfile)
+    print_statistics_for_each_language(stats, args.outfile)
     if args.graph:
-        show_stats_histogram(stats)
+        show_statistics_histogram(stats)
