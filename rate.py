@@ -75,7 +75,7 @@ def show_statistics_histogram(statistics):
     plt.show()
     
 
-def get_argument_parser():
+def get_cli_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--infile', type=argparse.FileType('r'),
                         default=sys.stdin,
@@ -86,11 +86,11 @@ def get_argument_parser():
     parser.add_argument('-g', '--graph', action='store_true',
                         help='in addition to text output, provide '\
                              'graphical representation of the data')
-    return parser
+    return parser.parse_args()
 
 
 if __name__ == '__main__':
-    args = get_argument_parser().parse_args()
+    args = get_cli_arguments()
     vacancies = json.load(args.infile)
     stats = get_language_statistics(vacancies)
     print_statistics_for_each_language(stats, args.outfile)
